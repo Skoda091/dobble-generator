@@ -1,0 +1,8 @@
+<h1>New card set</h1>
+
+<p>The generator currently only works with certain numbers of uploaded images, 13 or 57.</p>
+<p>Select multiple images with holding Command (⌘) on macOS or Control on Windows or Shift key.</p>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.picture_path(@conn, :create)) %>
+
+<span><%= link "Back", to: Routes.picture_path(@conn, :show) %></span>

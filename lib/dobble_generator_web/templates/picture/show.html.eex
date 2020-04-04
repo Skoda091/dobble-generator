@@ -1,0 +1,20 @@
+<h1>Card set</h1>
+
+ <%= if @zip_file do %>
+    <ul>
+    <a href="<%= DobbleGeneratorWeb.Router.Helpers.static_path(@conn, @zip_file) %>">Download card set</a>
+  </ul>
+  <% end %>
+
+   <ul>
+<span><%= link "New card set", to: Routes.picture_path(@conn, :new) %></span>
+  </ul>
+<ul>
+<%= for {picture, i} <- Enum.with_index(@pictures, 1) do %>
+     <li>
+    <strong>Card <%= i %>:</strong>
+    <img src="<%= DobbleGeneratorWeb.Router.Helpers.static_path(@conn, picture.image) %>" width="300" />
+  </li>
+<% end %>
+</ul>
+
