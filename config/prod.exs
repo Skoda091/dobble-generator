@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :dobble_generator, DobbleGeneratorWeb.Endpoint,
   url: [scheme: "https", host: "dobble-generator.herokuapp.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
   load_from_system_env: true,
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
 
