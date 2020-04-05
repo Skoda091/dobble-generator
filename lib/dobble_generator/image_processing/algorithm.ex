@@ -38,8 +38,6 @@ defmodule DobbleGenerator.ImageProcessing.Algorithm do
     # Total number of cards that can be generated following the Dobble rules
     # e.g. 7^2 + 7 + 1 = 57
     _number_of_cards = n * n + n + 1
-    # IO.inspect(number_of_cards, label: "NUMBER_OF_CARDS")
-    # IO.inspect(n, label: "N")
 
     # Add first set of n+1 cards (e.g. 8 cards)
     cards =
