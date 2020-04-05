@@ -45,7 +45,8 @@ defmodule DobbleGenerator.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.3"},
-      {:mogrify, "~> 0.7.3"}
+      {:mogrify, "~> 0.7.3"},
+      {:timber, "~> 3.0"}
     ]
   end
 

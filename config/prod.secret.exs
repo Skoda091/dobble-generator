@@ -27,6 +27,10 @@ config :dobble_generator, DobbleGeneratorWeb.Endpoint,
   http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
   secret_key_base: secret_key_base
 
+config :timber,
+  api_key: System.get_env("TIMBER_API_KEY"),
+  source_id: System.get_env("TIMBER_SOURCE_ID")
+
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix

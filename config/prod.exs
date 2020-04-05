@@ -16,7 +16,9 @@ config :dobble_generator, DobbleGeneratorWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_proto]]
 
 # Do not print debug messages in production
-config :logger, level: :info
+
+config :logger,
+  backends: [Timber.LoggerBackends.HTTP],
 
 # ## SSL Support
 #
