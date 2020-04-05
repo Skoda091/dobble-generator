@@ -26,8 +26,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :arc,
-  # or Arc.Storage.Local
-  storage: Arc.Storage.S3,
+  storage: Arc.Storage.Local,
   storage_dir: "priv/static/images"
 
 # Import environment specific config. This must remain at the bottom
