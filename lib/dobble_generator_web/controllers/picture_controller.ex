@@ -1,6 +1,8 @@
 defmodule DobbleGeneratorWeb.PictureController do
   use DobbleGeneratorWeb, :controller
 
+  require Logger
+
   alias DobbleGenerator.ImageProcessing
   alias DobbleGenerator.ImageProcessing.Picture
   alias DobbleGenerator.Picture, as: PictureUploader
@@ -18,6 +20,7 @@ defmodule DobbleGeneratorWeb.PictureController do
         file_name = "#{name}_#{timestamp}.#{ext}"
         plug_upload_img = %{plug_upload_img | filename: file_name}
         {:ok, file_name} = PictureUploader.store(plug_upload_img)
+        Logger.debug(file_name)
         file_name
       end
 

@@ -4,6 +4,8 @@ defmodule DobbleGenerator.ImageProcessing do
   """
   import Mogrify
 
+  require Logger
+
   alias DobbleGenerator.ImageProcessing.Picture
   alias DobbleGenerator.Picture, as: PictureUploader
   alias DobbleGenerator.ImageProcessing.Mogrify.Montage
@@ -36,6 +38,7 @@ defmodule DobbleGenerator.ImageProcessing do
       |> Enum.map(&String.to_charlist/1)
 
     {:ok, path} = :zip.create("#{@base_path}/#{file_name}", files, cwd: @base_path)
+    Logger.debug(path)
 
     path = path |> String.split("/") |> List.last()
     {:ok, "/images/#{[path]}"}
@@ -57,7 +60,10 @@ defmodule DobbleGenerator.ImageProcessing do
 
   defp process_montage(cards, timestamp) do
     for {card_images, index} <- Enum.with_index(cards, 1) do
-      result_image = create_result_image("#{@base_path}/#{file_name(timestamp, index)}")
+      %Mogrify.Image{path: path} =
+        result_image = create_result_image("#{@base_path}/#{file_name(timestamp, index)}")
+
+      Logger.debug(path)
       Montage.process(card_images, result_image, "geometry +2+2")
     end
   end
