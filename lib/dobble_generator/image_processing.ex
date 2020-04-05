@@ -10,6 +10,7 @@ defmodule DobbleGenerator.ImageProcessing do
   alias DobbleGenerator.Picture, as: PictureUploader
   alias DobbleGenerator.ImageProcessing.Mogrify.Montage
   alias DobbleGenerator.ImageProcessing.Algorithm
+  alias DobbleGenerator.ImageProcessing.LogImages
 
   @base_path Path.expand("./priv/static/images/")
 
@@ -20,6 +21,8 @@ defmodule DobbleGenerator.ImageProcessing do
          timestamp <- :rand.uniform(999_999),
          result_images <- process_montage(cards, timestamp),
          _ <- gc_base_images(base_images) do
+      LogImages.log("IMAGE_PROCESSING_1")
+
       {:ok, result_images}
     else
       {:error, msq} -> {:error, msq}

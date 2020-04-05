@@ -6,6 +6,7 @@ defmodule DobbleGeneratorWeb.PictureController do
   alias DobbleGenerator.ImageProcessing
   alias DobbleGenerator.ImageProcessing.Picture
   alias DobbleGenerator.Picture, as: PictureUploader
+  alias DobbleGenerator.ImageProcessing.LogImages
 
   def new(conn, _params) do
     changeset = ImageProcessing.change_picture(%Picture{})
@@ -13,6 +14,8 @@ defmodule DobbleGeneratorWeb.PictureController do
   end
 
   def create(conn, %{"picture" => %{"images" => plug_upload_imgs}}) do
+    LogImages.log("PICTURE_CONTROLLER_CREATE_1")
+
     file_names =
       for %{filename: filename} = plug_upload_img <- plug_upload_imgs do
         timestamp = :os.system_time(:second)
@@ -23,6 +26,8 @@ defmodule DobbleGeneratorWeb.PictureController do
         Logger.debug(file_name)
         file_name
       end
+
+    LogImages.log("PICTURE_CONTROLLER_CREATE_2")
 
     case ImageProcessing.generate_dobble_images(file_names) do
       {:ok, dobble_images} ->
@@ -55,6 +60,8 @@ defmodule DobbleGeneratorWeb.PictureController do
   end
 
   def show(conn, %{"file_names" => file_names, "zip_file" => zip_file}) do
+    LogImages.log("PICTURE_CONTROLLER_SHOW_1")
+
     pictures =
       file_names
       |> Jason.decode!()
