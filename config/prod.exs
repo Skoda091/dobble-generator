@@ -18,7 +18,7 @@ config :dobble_generator, DobbleGeneratorWeb.Endpoint,
 # Do not print debug messages in production
 
 config :logger,
-  backends: [Timber.LoggerBackends.HTTP],
+  backends: [Timber.LoggerBackends.HTTP]
 
 # ## SSL Support
 #
