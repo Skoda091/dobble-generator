@@ -1,12 +1,13 @@
 defmodule DobbleGenerator.Picture do
   use Arc.Definition
 
-  def __storage, do: Arc.Storage.Local
+  # def __storage, do: Arc.Storage.Local
 
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
 
   @versions [:original]
+  @acl :public_read
 
   # To add a thumbnail version:
   # @versions [:original, :thumb]

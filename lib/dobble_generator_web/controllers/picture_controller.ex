@@ -16,6 +16,8 @@ defmodule DobbleGeneratorWeb.PictureController do
   def create(conn, %{"picture" => %{"images" => plug_upload_imgs}}) do
     LogImages.log("PICTURE_CONTROLLER_CREATE_1")
 
+    {:ok, _} = ImageProcessing.gc_s3_images()
+
     file_names =
       for %{filename: filename} = plug_upload_img <- plug_upload_imgs do
         timestamp = :os.system_time(:second)
@@ -33,11 +35,12 @@ defmodule DobbleGeneratorWeb.PictureController do
       {:ok, dobble_images} ->
         encoded_dobble_images =
           dobble_images
-          |> Enum.map(& &1.path)
-          |> Enum.map(fn path -> path |> String.split("/") |> List.last() end)
+          |> Enum.map(& elem(&1, 1))
+          # |> Enum.map(fn path -> path |> String.split("/") |> List.last() end)
           |> Jason.encode!()
 
-        {:ok, zip_file} = ImageProcessing.generate_zip(dobble_images)
+        # {:ok, zip_file} = ImageProcessing.generate_zip(dobble_images)
+        zip_file = ""
 
         conn
         |> put_flash(:info, "Cards generated successfully.")
@@ -61,15 +64,16 @@ defmodule DobbleGeneratorWeb.PictureController do
 
   def show(conn, %{"file_names" => file_names, "zip_file" => zip_file}) do
     LogImages.log("PICTURE_CONTROLLER_SHOW_1")
-
     pictures =
       file_names
       |> Jason.decode!()
-      |> Enum.map(fn file_name -> %Picture{id: "", image: "/images/#{file_name}"} end)
+      |> Enum.map(&PictureUploader.url/1)
+      |> Enum.map(fn file_url -> %Picture{id: "", image: file_url} end)
 
-    IO.inspect(zip_file, label: "LABEL")
+    # IO.inspect(zip_file, label: "LABEL")
 
-    render(conn, "show.html", pictures: pictures, zip_file: Jason.decode!(zip_file))
+    render(conn, "show.html", pictures: pictures, zip_file: nil)
+    # render(conn, "show.html", pictures: pictures, zip_file: Jason.decode!(zip_file))
   end
 
   def show(conn, %{}) do

@@ -31,6 +31,15 @@ config :timber,
   api_key: System.get_env("TIMBER_API_KEY"),
   source_id: System.get_env("TIMBER_SOURCE_ID")
 
+config :arc,
+  storage: Arc.Storage.S3,
+  bucket: System.get_env("AWS_S3_BUCKET")
+
+config :ex_aws,
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  region: System.get_env("AWS_REGION")
+
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix
