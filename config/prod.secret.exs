@@ -48,6 +48,16 @@ config :ex_aws,
     region: System.get_env("AWS_REGION")
   ]
 
+config :sentry,
+  dsn: System.get_env("SENTRY_DNS"),
+  environment_name: :prod,
+  enable_source_code_context: true,
+  root_source_code_path: File.cwd!,
+  tags: %{
+    env: "production"
+  },
+  included_environments: [:prod]
+
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix
