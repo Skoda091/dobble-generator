@@ -33,12 +33,20 @@ config :timber,
 
 config :arc,
   storage: Arc.Storage.S3,
-  bucket: System.get_env("AWS_S3_BUCKET")
+  bucket: System.get_env("AWS_S3_BUCKET"),
+  virtual_host: true
 
 config :ex_aws,
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
   secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
-  region: System.get_env("AWS_REGION")
+  region: System.get_env("AWS_REGION"),
+  debug_requests: true,
+  json_codec: Jason,
+  s3: [
+    scheme: "https://",
+    host: "s3.eu-central-1.amazonaws.com",
+    region: System.get_env("AWS_REGION")
+  ]
 
 # ## Using releases (Elixir v1.9+)
 #
