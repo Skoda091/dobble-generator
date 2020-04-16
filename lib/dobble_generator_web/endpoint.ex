@@ -1,5 +1,6 @@
 defmodule DobbleGeneratorWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :dobble_generator
+  use Sentry.Phoenix.Endpoint
 
   socket "/socket", DobbleGeneratorWeb.UserSocket,
     websocket: true,

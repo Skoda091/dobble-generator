@@ -35,7 +35,7 @@ defmodule DobbleGeneratorWeb.PictureController do
       {:ok, dobble_images} ->
         encoded_dobble_images =
           dobble_images
-          |> Enum.map(& elem(&1, 1))
+          |> Enum.map(&elem(&1, 1))
           # |> Enum.map(fn path -> path |> String.split("/") |> List.last() end)
           |> Jason.encode!()
 
@@ -64,6 +64,7 @@ defmodule DobbleGeneratorWeb.PictureController do
 
   def show(conn, %{"file_names" => file_names, "zip_file" => zip_file}) do
     LogImages.log("PICTURE_CONTROLLER_SHOW_1")
+
     pictures =
       file_names
       |> Jason.decode!()

@@ -1,6 +1,9 @@
 defmodule DobbleGeneratorWeb.Router do
   use DobbleGeneratorWeb, :router
 
+  use Plug.ErrorHandler
+  use Sentry.Plug
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session

@@ -61,14 +61,19 @@ defmodule DobbleGenerator.ImageProcessing do
   # end
 
   def gc_s3_images() do
-    stream = ExAws.S3.list_objects(@bucket, prefix: "uploads/") |> ExAws.stream!() |> Stream.map(& &1.key)
+    stream =
+      ExAws.S3.list_objects(@bucket, prefix: "uploads/")
+      |> ExAws.stream!()
+      |> Stream.map(& &1.key)
+
     {:ok, _} = ExAws.S3.delete_all_objects(@bucket, stream) |> ExAws.request()
   end
 
   defp process_montage(cards, timestamp) do
     for {card_images, index} <- Enum.with_index(cards, 1) do
       %Mogrify.Image{path: path} =
-        %{path: result_image_path} = result_image = create_result_image("#{@base_path}/#{file_name(timestamp, index)}")
+        %{path: result_image_path} =
+        result_image = create_result_image("#{@base_path}/#{file_name(timestamp, index)}")
 
       Logger.debug(path)
       Montage.process(card_images, result_image, "geometry +2+2")
@@ -88,22 +93,25 @@ defmodule DobbleGenerator.ImageProcessing do
       :done = request |> ExAws.request!()
       # %{path: processed_image_path} =  =
       local_path
-        |> open()
-        |> resize("100x100")
-        |> save(in_place: true)
+      |> open()
+      |> resize("100x100")
+      |> save(in_place: true)
+
       # {:ok, image_name} = PictureUploader.store(processed_image_path)
       # image_name
     end
   end
 
   defp create_result_image(path) do
-    %{path: result_image_path} = result_image =
+    %{path: result_image_path} =
+      result_image =
       %Mogrify.Image{}
       |> custom("size", "500x500")
       |> custom("background", "#000000")
       |> custom("gravity", "center")
       |> canvas("white")
       |> create(path: path)
+
     {:ok, _filename} = PictureUploader.store(result_image_path)
     result_image
   end
