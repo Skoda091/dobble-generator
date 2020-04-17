@@ -38,7 +38,7 @@ defmodule DobbleGenerator.MixProject do
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.11"},
+      {:phoenix_html, "~> 2.14"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
@@ -52,7 +52,8 @@ defmodule DobbleGenerator.MixProject do
       {:hackney, "~> 1.6"},
       {:poison, "~> 3.1"},
       {:sweet_xml, "~> 0.6"},
-      {:sentry, "~> 7.0"}
+      {:sentry, "~> 7.0"},
+      {:phoenix_live_dashboard, "~> 0.1"}
     ]
   end
 

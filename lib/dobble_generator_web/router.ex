@@ -1,5 +1,6 @@
 defmodule DobbleGeneratorWeb.Router do
   use DobbleGeneratorWeb, :router
+  import Phoenix.LiveDashboard.Router
 
   use Plug.ErrorHandler
   use Sentry.Plug
@@ -14,6 +15,11 @@ defmodule DobbleGeneratorWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  scope "/" do
+    pipe_through :browser
+    live_dashboard "/dashboard"
   end
 
   scope "/", DobbleGeneratorWeb do

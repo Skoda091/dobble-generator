@@ -15,7 +15,8 @@ config :dobble_generator, DobbleGeneratorWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "kfi9pCRMq6brTErZTyOVaKyMUukMV3wOujz1cptDzUerEKQAV1JQsYjWI6bvQDfh",
   render_errors: [view: DobbleGeneratorWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: DobbleGenerator.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: DobbleGenerator.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [signing_salt: "ykuP4pRsmyoh86jwKrblGehZwzLlyDVQ"]
 
 # Configures Elixir's Logger
 config :logger, :console,
