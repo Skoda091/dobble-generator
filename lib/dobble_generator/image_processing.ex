@@ -40,9 +40,16 @@ defmodule DobbleGenerator.ImageProcessing do
 
     file_name = get_file_path(file_name)
 
-    IO.inspect(Kernel.inspect(file_name), label: "X:FILE_NAME")
-    IO.inspect(Kernel.inspect(files), label: "X:FILES")
-    IO.inspect(Kernel.inspect(get_path()), label: "X:PATH")
+    Logger.debug("X:FILE_NAME")
+    Logger.debug(Kernel.inspect(file_name))
+
+    Logger.debug("X:FILES")
+    Logger.debug(Kernel.inspect(files))
+
+    Logger.debug("X:PATH")
+    Logger.debug(Kernel.inspect(get_path()))
+
+
 
     {:ok, path} = :zip.create(file_name, files, cwd: get_path())
 
