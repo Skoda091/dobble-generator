@@ -136,7 +136,7 @@ defmodule DobbleGenerator.ImageProcessing do
       :dev -> @base_path
       :prod ->
         File.touch!("/tmp/a.txt")
-        "/tmp"
+        "/tmp/"
     end
   end
 end
