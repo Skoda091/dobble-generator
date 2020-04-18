@@ -31,6 +31,7 @@ defmodule DobbleGenerator.ImageProcessing do
   def generate_zip(images) do
     timestamp = :os.system_time(:second)
     file_name = "dobble_set_zipped_#{timestamp}.zip"
+    LogImages.log("/tmp", "GENERATE_ZIP_1")
 
     files =
       images
@@ -38,21 +39,22 @@ defmodule DobbleGenerator.ImageProcessing do
       |> Enum.map(&get_file_path(&1))
       |> Enum.map(&String.to_charlist/1)
 
-    file_name = get_file_path(file_name)
+      file_name = get_file_path(file_name)
 
-    Logger.debug("X:FILE_NAME")
-    Logger.debug(Kernel.inspect(file_name))
+      Logger.debug("X:FILE_NAME")
+      Logger.debug(Kernel.inspect(file_name))
 
-    Logger.debug("X:FILES")
-    Logger.debug(Kernel.inspect(files))
+      Logger.debug("X:FILES")
+      Logger.debug(Kernel.inspect(files))
 
-    Logger.debug("X:PATH")
-    Logger.debug(Kernel.inspect(get_path()))
+      Logger.debug("X:PATH")
+      Logger.debug(Kernel.inspect(get_path()))
 
 
 
-    # {:ok, path} = :zip.create(file_name, files, cwd: get_path())
-    {:ok, path} = :zip.create(file_name, files)
+      LogImages.log("/tmp", "GENERATE_ZIP_2")
+    {:ok, path} = :zip.create(file_name, files, cwd: get_path())
+    # {:ok, path} = :zip.create(file_name, files)
 
     path = path |> String.split("/") |> List.last() |> get_file_path()
 
