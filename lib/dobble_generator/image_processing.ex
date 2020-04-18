@@ -20,7 +20,7 @@ defmodule DobbleGenerator.ImageProcessing do
          {:ok, cards} <- Algorithm.execute(processed_base_images),
          timestamp <- :rand.uniform(999_999),
          result_images <- process_montage(cards, timestamp) do
-      LogImages.log("IMAGE_PROCESSING_1")
+      # LogImages.log("IMAGE_PROCESSING_1")
 
       {:ok, result_images}
     else
@@ -86,6 +86,8 @@ defmodule DobbleGenerator.ImageProcessing do
       Logger.debug("LOCAL_PATH")
       local_path = "#{@base_path}/#{base_image}"
       local_path |> Kernel.inspect() |> Logger.debug()
+
+      LogImages.log("PROCESS_BASE_IMAGES")
 
       request = ExAws.S3.download_file(@bucket, "uploads/#{base_image}", local_path)
       Logger.debug("LOG_REQUEST_PAYLOAD")

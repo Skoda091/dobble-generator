@@ -14,13 +14,14 @@ defmodule DobbleGeneratorWeb.PictureController do
   end
 
   def create(conn, %{"picture" => %{"images" => plug_upload_imgs}}) do
-    LogImages.log("PICTURE_CONTROLLER_CREATE_1")
+    # LogImages.log("PICTURE_CONTROLLER_CREATE_1")
 
     {:ok, _} = ImageProcessing.gc_s3_images()
 
+    timestamp = :os.system_time(:second)
+
     file_names =
       for %{filename: filename} = plug_upload_img <- plug_upload_imgs do
-        timestamp = :os.system_time(:second)
         [name, ext] = filename |> String.replace(" ", "_") |> String.split(".")
         file_name = "#{name}_#{timestamp}.#{ext}"
         plug_upload_img = %{plug_upload_img | filename: file_name}
@@ -29,7 +30,7 @@ defmodule DobbleGeneratorWeb.PictureController do
         file_name
       end
 
-    LogImages.log("PICTURE_CONTROLLER_CREATE_2")
+    # LogImages.log("PICTURE_CONTROLLER_CREATE_2")
 
     case ImageProcessing.generate_dobble_images(file_names) do
       {:ok, dobble_images} ->
