@@ -51,7 +51,8 @@ defmodule DobbleGenerator.ImageProcessing do
 
 
 
-    {:ok, path} = :zip.create(file_name, files, cwd: get_path())
+    # {:ok, path} = :zip.create(file_name, files, cwd: get_path())
+    {:ok, path} = :zip.create(file_name, files)
 
     path = path |> String.split("/") |> List.last() |> get_file_path()
 
