@@ -13,6 +13,7 @@ config :dobble_generator,
 # Configures the endpoint
 config :dobble_generator, DobbleGeneratorWeb.Endpoint,
   url: [host: "localhost"],
+  debug_errors: true,
   secret_key_base: "kfi9pCRMq6brTErZTyOVaKyMUukMV3wOujz1cptDzUerEKQAV1JQsYjWI6bvQDfh",
   render_errors: [view: DobbleGeneratorWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: DobbleGenerator.PubSub, adapter: Phoenix.PubSub.PG2],
