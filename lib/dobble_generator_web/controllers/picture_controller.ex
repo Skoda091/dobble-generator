@@ -40,8 +40,8 @@ defmodule DobbleGeneratorWeb.PictureController do
           # |> Enum.map(fn path -> path |> String.split("/") |> List.last() end)
           |> Jason.encode!()
 
-        # {:ok, zip_file} = ImageProcessing.generate_zip(dobble_images)
-        zip_file = ""
+        {:ok, zip_file} = ImageProcessing.generate_zip(dobble_images)
+        # zip_file = ""
 
         conn
         |> put_flash(:info, "Cards generated successfully.")
@@ -64,18 +64,17 @@ defmodule DobbleGeneratorWeb.PictureController do
   end
 
   def show(conn, %{"file_names" => file_names, "zip_file" => zip_file}) do
-    LogImages.log("PICTURE_CONTROLLER_SHOW_1")
-
     pictures =
       file_names
       |> Jason.decode!()
       |> Enum.map(&PictureUploader.url/1)
       |> Enum.map(fn file_url -> %Picture{id: "", image: file_url} end)
 
-    # IO.inspect(zip_file, label: "LABEL")
-
-    render(conn, "show.html", pictures: pictures, zip_file: nil)
-    # render(conn, "show.html", pictures: pictures, zip_file: Jason.decode!(zip_file))
+    zip_file =
+      zip_file
+      |> Jason.decode!()
+      |> PictureUploader.url()
+    render(conn, "show.html", pictures: pictures, zip_file: zip_file)
   end
 
   def show(conn, %{}) do

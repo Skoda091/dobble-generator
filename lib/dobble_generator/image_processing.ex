@@ -34,16 +34,20 @@ defmodule DobbleGenerator.ImageProcessing do
 
     files =
       images
-      |> Enum.map(& &1.path)
-      |> Enum.map(&String.split(&1, "/"))
-      |> Enum.map(&List.last/1)
+      |> Enum.map(&elem(&1, 1))
+      |> Enum.map(&get_file_path(&1))
       |> Enum.map(&String.to_charlist/1)
 
-    {:ok, path} = :zip.create("#{@base_path}/#{file_name}", files, cwd: @base_path)
+    {:ok, path} =
+      file_name
+      |> get_file_path()
+      |> :zip.create(files, cwd: @base_path)
     Logger.debug(path)
 
-    path = path |> String.split("/") |> List.last()
-    {:ok, "/images/#{[path]}"}
+    path = path |> String.split("/") |> List.last() |> get_file_path()
+
+    PictureUploader.store(path)
+    {:ok, path}
   end
 
   defp gc_base_images(images) do
@@ -83,35 +87,16 @@ defmodule DobbleGenerator.ImageProcessing do
 
   defp process_base_images(base_images) do
     for base_image <- base_images do
-      Logger.debug("LOCAL_PATH")
-      local_path = "#{@base_path}/#{base_image}"
-      local_path |> Kernel.inspect() |> Logger.debug()
+      local_path = get_file_path(base_image)
 
-      # LogImages.log("PROCESS_BASE_IMAGES")
+      @bucket
+      |> ExAws.S3.download_file("uploads/#{base_image}", local_path)
+      |> ExAws.request!()
 
-
-
-      LogImages.log("/tmp", "FILES_IN_TMP-BEFORE")
-      File.touch!("/tmp/a.txt")
-      LogImages.log("/tmp", "FILES_IN_TMP-AFTER")
-
-
-      # request = ExAws.S3.download_file(@bucket, "uploads/#{base_image}", local_path)
-      request = ExAws.S3.download_file(@bucket, "uploads/#{base_image}", "/tmp/#{base_image}")
-      Logger.debug("LOG_REQUEST_PAYLOAD")
-      request |> Kernel.inspect() |> Logger.debug()
-      :done = request |> ExAws.request!()
-
-      LogImages.log("/tmp", "FILES_IN_TMP-AFTER-REQUEST")
-
-      # %{path: processed_image_path} =  =
-        "/tmp/#{base_image}"
+      local_path
       |> open()
       |> resize("100x100")
       |> save(in_place: true)
-
-      # {:ok, image_name} = PictureUploader.store(processed_image_path)
-      # image_name
     end
   end
 
@@ -135,5 +120,14 @@ defmodule DobbleGenerator.ImageProcessing do
 
   def change_picture(%Picture{} = picture) do
     Picture.changeset(picture, %{})
+  end
+
+  defp get_file_path(filename) do
+    case Mix.env do
+      :dev -> "#{@base_path}/#{filename}"
+      :prod ->
+        File.touch!("/tmp/a.txt")
+        "/tmp/#{filename}"
+    end
   end
 end

@@ -2,7 +2,7 @@
 
  <%= if @zip_file do %>
     <ul>
-    <a href="<%= DobbleGeneratorWeb.Router.Helpers.static_path(@conn, @zip_file) %>">Download card set</a>
+    <a href="<%= @zip_file %>">Download card set</a>
   </ul>
   <% end %>
 
