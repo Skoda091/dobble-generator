@@ -41,7 +41,7 @@ defmodule DobbleGenerator.ImageProcessing do
     {:ok, path} =
       file_name
       |> get_file_path()
-      |> :zip.create(files, cwd: @base_path)
+      |> :zip.create(files, cwd: get_path())
     Logger.debug(path)
 
     path = path |> String.split("/") |> List.last() |> get_file_path()
@@ -128,6 +128,15 @@ defmodule DobbleGenerator.ImageProcessing do
       :prod ->
         File.touch!("/tmp/a.txt")
         "/tmp/#{filename}"
+    end
+  end
+
+  defp get_path() do
+    case Mix.env do
+      :dev -> @base_path
+      :prod ->
+        File.touch!("/tmp/a.txt")
+        "/tmp"
     end
   end
 end
