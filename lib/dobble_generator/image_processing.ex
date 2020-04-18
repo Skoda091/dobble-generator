@@ -87,7 +87,14 @@ defmodule DobbleGenerator.ImageProcessing do
       local_path = "#{@base_path}/#{base_image}"
       local_path |> Kernel.inspect() |> Logger.debug()
 
-      LogImages.log("PROCESS_BASE_IMAGES")
+      # LogImages.log("PROCESS_BASE_IMAGES")
+
+
+
+      LogImages.log("/tmp", "FILES_IN_TMP-BEFORE")
+      File.touch!("/tmp/a.txt")
+      LogImages.log("/tmp", "FILES_IN_TMP-AFTER")
+
 
       # request = ExAws.S3.download_file(@bucket, "uploads/#{base_image}", local_path)
       request = ExAws.S3.download_file(@bucket, "uploads/#{base_image}", ".tmp/#{base_image}")
