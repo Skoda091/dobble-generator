@@ -102,8 +102,10 @@ defmodule DobbleGenerator.ImageProcessing do
       request |> Kernel.inspect() |> Logger.debug()
       :done = request |> ExAws.request!()
 
+      LogImages.log("/tmp", "FILES_IN_TMP-AFTER-REQUEST")
+
       # %{path: processed_image_path} =  =
-      local_path
+        "/tmp/#{base_image}"
       |> open()
       |> resize("100x100")
       |> save(in_place: true)
