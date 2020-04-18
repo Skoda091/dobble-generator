@@ -40,7 +40,7 @@ defmodule DobbleGenerator.ImageProcessing do
 
     {:ok, path} =
       file_name
-      |> get_file_path()
+      # |> get_file_path()
       |> :zip.create(files, cwd: get_path())
     Logger.debug(path)
 
