@@ -89,7 +89,7 @@ defmodule DobbleGenerator.ImageProcessing do
     for {card_images, index} <- Enum.with_index(cards, 1) do
       %Mogrify.Image{path: path} =
         %{path: result_image_path} =
-        result_image = create_result_image("#{@base_path}/#{file_name(timestamp, index)}")
+        result_image = create_result_image("#{get_path()}/#{file_name(timestamp, index)}")
 
       Logger.debug(path)
       Montage.process(card_images, result_image, "geometry +2+2")
