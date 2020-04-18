@@ -38,11 +38,13 @@ defmodule DobbleGenerator.ImageProcessing do
       |> Enum.map(&get_file_path(&1))
       |> Enum.map(&String.to_charlist/1)
 
-    {:ok, path} =
-      file_name
-      # |> get_file_path()
-      |> :zip.create(files, cwd: get_path())
-    Logger.debug(path)
+    file_name = get_file_path(file_name)
+
+    IO.inspect(Kernel.inspect(file_name), label: "X:FILE_NAME")
+    IO.inspect(Kernel.inspect(files), label: "X:FILES")
+    IO.inspect(Kernel.inspect(get_path()), label: "X:PATH")
+
+    {:ok, path} = :zip.create(file_name, files, cwd: get_path())
 
     path = path |> String.split("/") |> List.last() |> get_file_path()
 
