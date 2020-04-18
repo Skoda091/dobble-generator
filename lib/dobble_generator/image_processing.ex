@@ -90,7 +90,11 @@ defmodule DobbleGenerator.ImageProcessing do
       request = ExAws.S3.download_file(@bucket, "uploads/#{base_image}", local_path)
       Logger.debug("LOG_REQUEST_PAYLOAD")
       request |> Kernel.inspect() |> Logger.debug()
-      :done = request |> ExAws.request!()
+      result = request |> ExAws.request()
+      Logger.debug("LOG_RESULT_REQUEST")
+      result |> Kernel.inspect() |> Logger.debug()
+
+
       # %{path: processed_image_path} =  =
       local_path
       |> open()
